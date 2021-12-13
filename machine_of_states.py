@@ -6,17 +6,16 @@ class TG_Chat_Bot(object):
     '''
     Класс состояний бота
     '''
-    states = ['rest', 'accept an order', 'payment selection', 'order summary']
+    states = ['asleep', 'accept an order', 'payment selection', 'order summary']
 
     def __init__(self):
         self.type_of_pizza = None
         self.type_of_payment = None
-        self.machine = Machine(model=self, states=TG_Chat_Bot.states, initial='rest')
-        self.machine.add_transition(trigger='welcome', source='rest', dest='accept an order')
-        self.machine.add_transition(trigger='customer reported order', source='accept an order', dest='payment selection')
-        self.machine.add_transition(trigger='customer has chosen the form of payment', source='payment selection', dest='order summary')
-        self.machine.add_transition(trigger='Summarized the order', source='order summary', dest='rest')
-        self.machine.add_transition(trigger='start', source='*', dest='rest')
+        self.machine = Machine(model=self, states=TG_Chat_Bot.states, initial='asleep')
+        self.machine.add_transition(trigger='customer_reported_order', source='asleep', dest='accept an order')
+        self.machine.add_transition(trigger='customer_has_chosen_the_form_of_payment', source='accept an order', dest='payment selection')
+        self.machine.add_transition(trigger='summarized_the_order', source='payment selection', dest='order summary')
+        self.machine.add_transition(trigger='stop', source='*', dest='asleep')
 
     def get_type_of_pizza(self, type_of_pizza):
         '''
