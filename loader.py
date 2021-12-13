@@ -1,11 +1,11 @@
-import telebot
+from telebot import TeleBot
 from telebot import types
 from machine_of_states import TG_Chat_Bot
 
 TOKEN = '5091123162:AAHBysF8mVfpg-Nry8ufd-bFGks0RK-CnXM'
 
 
-bot = telebot.TeleBot(TOKEN)
+bot = TeleBot(TOKEN)
 TG_bot = TG_Chat_Bot()
 
 
@@ -40,7 +40,6 @@ def callback_worker(call):
         elif call.data == 'no':
             TG_bot.stop()
             bot.send_message(call.from_user.id, 'Ну тогда всего хорошего!)')
-
 
     elif TG_bot.state == 'accept an order':
 
